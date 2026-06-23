@@ -19,11 +19,15 @@ A hands-on, self-contained tutorial for **coarse-grained RNA molecular dynamics*
    a real all-atom RNA with the CG beads overlaid (the atoms→beads mapping), the built 42-bead chain,
    and the 6 base-pair restraints that impose a hairpin.
    (The notebook *configures* a run but does not execute a long simulation — that needs a GPU.)
-3. **Analysis** — using the **pre-computed trajectories shipped in this repo** (1 µs CALVADOS runs of V21
+3. **Run a short MD yourself (optional)** — build a CALVADOS-*style* CG RNA force field directly in
+   **OpenMM** (bonds, angle, Ashbaugh–Hatch, Debye–Hückel — the Part-1 equations as code) and run a few
+   thousand steps on the CPU; watch $R_g$ compact as salt rises.
+4. **Analysis** — using the **pre-computed trajectories shipped in this repo** (1 µs CALVADOS runs of V21
    across a salt series, both disordered and hairpin variants): radius of gyration, end-to-end distance,
-   the salt-titration trend, and **contact maps** (threshold-based) + **contact-distance** analysis that
-   reveal the hairpin stem as an anti-diagonal. All analysis is plain **NumPy** — no `mdtraj`/`openmm`,
-   so there are no compiled-extension / version-compatibility problems on Colab.
+   the salt-titration trend, **free-energy profiles** $F(R_g)=-k_BT\ln P(R_g)$, **contact maps** (threshold)
+   + **contact-distance** analysis revealing the hairpin stem as an anti-diagonal, and an **animated 3-D
+   trajectory**. All analysis is plain **NumPy** + `py3Dmol` — no `mdtraj`, so there are no
+   compiled-extension / version-compatibility problems on Colab.
 
 ## What's in `data/`
 
