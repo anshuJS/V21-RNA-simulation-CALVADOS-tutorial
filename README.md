@@ -16,12 +16,14 @@ A hands-on, self-contained tutorial for **coarse-grained RNA molecular dynamics*
    - the **Ashbaugh–Hatch** stickiness term (vary λ),
    - **Debye–Hückel** electrostatics and **salt screening** (the curve collapsing as salt rises).
 2. **Setting up V21** — step by step, **visualising the system in 3-D** at each stage (`py3Dmol`):
-   the 2-bead model, the built 42-bead chain, and the 6 base-pair restraints that impose a hairpin.
+   a real all-atom RNA with the CG beads overlaid (the atoms→beads mapping), the built 42-bead chain,
+   and the 6 base-pair restraints that impose a hairpin.
    (The notebook *configures* a run but does not execute a long simulation — that needs a GPU.)
 3. **Analysis** — using the **pre-computed trajectories shipped in this repo** (1 µs CALVADOS runs of V21
-   across a salt series, both disordered and hairpin variants): radius of gyration and end-to-end distance,
-   their distributions, and the salt-titration trend — recovering the polyelectrolyte compaction the
-   Debye–Hückel animation predicts.
+   across a salt series, both disordered and hairpin variants): radius of gyration, end-to-end distance,
+   the salt-titration trend, and **contact maps** (threshold-based) + **contact-distance** analysis that
+   reveal the hairpin stem as an anti-diagonal. All analysis is plain **NumPy** — no `mdtraj`/`openmm`,
+   so there are no compiled-extension / version-compatibility problems on Colab.
 
 ## What's in `data/`
 
@@ -29,14 +31,17 @@ A hands-on, self-contained tutorial for **coarse-grained RNA molecular dynamics*
 data/
 ├── residues_C2RNA.csv                 CALVADOS RNA bead parameters
 ├── reference_full_traj_summary.csv    Rg / e2e from the FULL 1 µs runs (for comparison)
+├── V21_top.pdb                        shared 42-bead topology (all sims share it)
+├── example_rna_allatom.pdb            a real 5-nt all-atom RNA (for the atoms→beads figure)
 └── trajectories/
-    ├── disordered/V21_dis_<salt>mM/   traj.dcd (1000 frames) + top.pdb
-    └── hairpin/   V21_hp_<salt>mM/     traj.dcd (1000 frames) + top.pdb
+    ├── disordered/V21_dis_<salt>mM/coords.npz   xyz (1000,42,3) + box (1000,3), nm
+    └── hairpin/   V21_hp_<salt>mM/coords.npz
 ```
 
 - **12 salt points** each: 0, 10, 20, 50, 100, 150, 200, 300, 400, 500, 700, 1000 mM.
-- Trajectories are **down-sampled** (every 100th frame of the 1 µs runs → 1000 frames) so the repo stays
-  small; they reproduce the full-run Rg/e2e to ±0.02 nm.
+- Trajectories are **down-sampled** (every 100th frame of the 1 µs runs → 1000 frames) and stored as plain
+  NumPy `.npz` (coordinates + box, loadable with `numpy.load`, no MD library needed); they reproduce the
+  full-run Rg/e2e to ±0.02 nm.
 
 ## Model / setup summary
 
