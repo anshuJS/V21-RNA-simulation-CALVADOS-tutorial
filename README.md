@@ -40,9 +40,13 @@ data/
 └── trajectories/
     ├── disordered/V21_dis_<salt>mM/coords.npz   xyz (1000,42,3) + box (1000,3), nm
     └── hairpin/   V21_hp_<salt>mM/coords.npz
+trajectories_temp/                              temperature series at 150 mM (0–100 °C)
+    ├── disordered/V21_dis_<T>C/coords.npz
+    └── hairpin/   V21_hp_<T>C/coords.npz
 ```
 
-- **12 salt points** each: 0, 10, 20, 50, 100, 150, 200, 300, 400, 500, 700, 1000 mM.
+- **Salt series:** 12 points each at 300 K: 0, 10, 20, 50, 100, 150, 200, 300, 400, 500, 700, 1000 mM.
+- **Temperature series:** 26 points each at 150 mM: 0–100 °C (incl. 10/16/23/30/37/44/50/56 °C).
 - Trajectories are **down-sampled** (every 100th frame of the 1 µs runs → 1000 frames) and stored as plain
   NumPy `.npz` (coordinates + box, loadable with `numpy.load`, no MD library needed); they reproduce the
   full-run Rg/e2e to ±0.02 nm.
